@@ -113,16 +113,46 @@ There's no live UI, so **synthesize** the visual instead of a real screenshot. B
 Pick what fits the project type (a CLI → terminal; a library/API → code panel; a skill → logo + feature
 cards + terminal). No `screenshots/` folder is created in this branch.
 
-## Step 3 — Design the poster
+## Step 3 — Pick theme(s), then design the poster
 
-Read the three references and commit to ONE aesthetic:
-- `references/backgrounds.md` — pick a premium background family; tune `--accent`/`--accent-2` to the
-  app's `primary_color` (or its logo). **Always add grain + vignette.**
+### 3a — Choose a DIFFERENT theme per output size (rotation)
+There are **24 premium themes** in `assets/themes.css` (indexed in `references/themes/catalog.json`).
+Every theme ships a full palette, a distinctive Latin **and** Persian font pairing, an atmospheric
+background stack, and frame styling — all exposed as the same CSS custom properties, so one poster
+template works with any theme. **Do not hand-roll a background from scratch and do not reuse the same
+look every time** — that is exactly the failure this system fixes.
+
+Ask the picker for a shortlist that excludes recently-used themes (per-project and globally):
+```
+python "$MOCKMEUP_HOME/scripts/pick_theme.py" shortlist --project "<clean app name>" \
+    --count <#output sizes> --tags <mood,tags> [--mode dark|light]
+```
+Choose tags from the app's personality (e.g. `corporate,cool` for a B2B holding; `luxury,warm` for
+finance; `creative,bold` for a consumer app; add `rtl-friendly` for Persian/Arabic apps). Then **you**
+pick **one distinct theme per output size** from the top of the shortlist (higher `score` = better mood
+fit). The two images of a single run **must be visibly different themes** — that is the whole point.
+
+Apply a theme by (a) linking the stylesheet in `<head>` and (b) putting its class on `.poster`:
+```html
+<link rel="stylesheet" href="ABS_PATH_TO/assets/themes.css">   <!-- or copy themes.css next to the poster -->
+<div class="poster theme-royal-slate"> … </div>
+```
+Then consume the theme's variables (`--display`/`--body` or `--display-fa`/`--body-fa` for RTL,
+`--accent`, `--ink`, `--panel`, `--chrome-bg`, `--frame-shadow`, `--chip-bg`, `--hl-fill`, `--vignette`,
+`--grain-opacity`) in your layout CSS — never hard-code colours/fonts the theme already defines. The
+template must render `<div class="bg"></div><div class="grain"></div><div class="vignette"></div>` so the
+theme's atmosphere and texture show through.
+
+### 3b — Compose the layout
+Read the references and commit to the composition:
+- `references/themes/catalog.json` + `assets/themes.css` — the primary source for atmosphere, palette and
+  fonts (per chosen theme). `references/backgrounds.md` remains as extra background recipes if you author
+  a bespoke variant, but a catalog theme is the default.
 - `references/frames.md` — wrap each screenshot in the frame matching its `orientation_frame`; arrange
-  multiple shots with depth/overlap in a good order.
-- `references/layout.md` — choose the composition for the target size, the type scale, and the
-  anti-slop checklist. Use distinctive fonts (Google Fonts `<link>` works at render time) — never
-  default Inter/Roboto/Arial.
+  multiple shots so **every screenshot stays ≥55% visible** (see the visibility rule there — this is what
+  fixes the "second screenshot is buried" bug).
+- `references/layout.md` — pick a named composition archetype for the target size, the type scale, and the
+  anti-slop checklist. Fonts come from the theme's `--display`/`--body` vars — never default Inter/Roboto/Arial.
 
 Build the poster HTML. Two options:
 - **Fast path:** copy `assets/poster_template.html` and replace its `{{TOKENS}}`
@@ -149,6 +179,8 @@ Sizes: `social` (1080×1350), `og`/`wide` (1200×630), `square` (1080×1080), `h
 
 If the chosen size is landscape (og/hero) and the HTML was built for portrait, author a size-specific
 layout (split text-left / screenshot-right per `layout.md`) rather than stretching the portrait one.
+Because each size uses a **different theme**, you are authoring a fresh HTML per size anyway — lean into
+it and give each its own composition.
 
 ## Step 5 — Review and report
 
@@ -169,12 +201,24 @@ the text while the screenshots crowd/cut off the bottom edge. If you see that, f
   floating alone in a corner.
 - Aim for one clear focal read and deliberate negative space — not a dead-centered, evenly-filled grid.
 
-Then report the saved file path(s) and offer variations (different aesthetic direction, background
-family, size, or an alternate screenshot arrangement).
+**Record the themes you used** so the next run rotates away from them:
+```
+python "$MOCKMEUP_HOME/scripts/pick_theme.py" record --project "<clean app name>" \
+    --theme <id-for-size-1> --theme <id-for-size-2>
+```
+
+Then report the saved file path(s), name the theme used for each, and offer variations (a different
+theme from the shortlist, another size, or an alternate screenshot arrangement).
 
 ## Guardrails
+- **Rotate themes.** Pick from `pick_theme.py shortlist`; never reuse the same theme two runs in a row, and
+  the multiple sizes of one run must each use a **different** theme. Call `pick_theme.py record` when done.
+- **Every screenshot ≥55% visible.** Never bury a secondary shot behind the hero (the old bug). If shots
+  would overlap too much, use a side-by-side/cascade arrangement or drop a shot — see `references/frames.md`.
 - Never invent features/claims the project doesn't have; prefer the app's own words.
 - Never upscale a tiny screenshot — recapture at higher resolution instead.
 - Always stop any dev server / http.server you start.
-- Match the poster's mood to the actual product (fintech ≠ kids' game).
+- Match the theme's mood to the actual product (fintech ≠ kids' game); use the catalog `tags` to shortlist.
+- RTL/non-English app → write copy in the app's language, mirror the layout, and use the theme's
+  `--display-fa`/`--body-fa` fonts (Vazirmatn/Markazi Text/Lalezar ship with the themes).
 - The bar is "would this look at home on a top-tier product's landing page?" If not, iterate.

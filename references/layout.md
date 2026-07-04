@@ -21,6 +21,22 @@ serve every ratio equally. Pick the composition per ratio:
 | hero 1920×1080 | 16:9 | Big left text, large laptop/browser shot right, generous negative space. |
 | story 1080×1920 | 9:16 | Vertical stack: name top third, tall phone frame center, tagline/chips bottom. |
 
+## Composition archetypes (theme × archetype = real variety)
+The theme supplies colour/atmosphere/fonts; the *archetype* supplies the arrangement. Pick one that fits
+the size and vary it across runs so two posters never share both theme and composition:
+
+1. **tilted-hero-bleed** — text block on one side, a single browser/laptop shot tilted (`perspective` +
+   `rotateY`) and bleeding off the opposite edge (one edge only). The default workhorse.
+2. **split** — clean vertical split: text ~42% one side, framed shot the other, minimal/na tilt. Corporate,
+   calm. Great for og/wide and hero.
+3. **staggered-duo** — two shots offset sideways (see `frames.md`), text above or beside. Use when two
+   screens both matter — keeps both ≥55% visible.
+4. **centered-pedestal** — logo/name top, one hero shot centered on a soft ground shadow / spotlight,
+   tagline beneath. Pairs beautifully with `spotlight-stage`, `champagne-studio`, `obsidian-gold`.
+5. **diagonal-cascade** — 2–3 shots stepping across the canvas; strong sense of depth and motion.
+6. **floating-isometric** — shot(s) rotated in a light isometric plane with long soft shadows; modern,
+   product-launch energy. Good with `glass-*`, `midnight-indigo`, `duotone-studio`.
+
 ## Typographic system (pick fonts with character — NOT Inter/Roboto/Arial)
 Load Google Fonts via `<link>` in `<head>` (network is available at render time), OR use a
 strong system stack. Pair a **display** face (headline) with a **body** face (tagline/chips).
@@ -93,12 +109,16 @@ screenshots crowd/cut off the bottom. Fix by:
 - Never invent features the project doesn't have. Prefer the app's own words.
 
 ## Anti-slop checklist (before rendering)
-- [ ] Distinctive fonts (not Inter/Roboto/Arial default).
+- [ ] A theme was chosen via `pick_theme.py` and applied via its `.theme-<id>` class + `themes.css`.
+- [ ] This run's sizes each use a **different** theme, and the theme differs from recent history.
+- [ ] Composition = one named archetype above, authored bespoke for THIS size (not a reflow of another).
+- [ ] Distinctive fonts from the theme's `--display`/`--body` (not Inter/Roboto/Arial default).
 - [ ] Background has grain + vignette, not a flat gradient.
 - [ ] Accent color matches the actual app.
 - [ ] Screenshot is in a frame with a real shadow, slightly angled or offset.
+- [ ] **Every screenshot ≥55% visible** — no shot buried behind another (see `frames.md`).
 - [ ] One clear focal point; margins respected; not center-locked & evenly spaced.
 - [ ] Tagline is specific to this product, not a generic slogan.
 - [ ] No large empty corner opposite the text; open space is anchored (watermark/glow) & intentional.
 - [ ] No screenshot bleeding off two edges; shots sit fully in frame with breathing room.
-- [ ] RTL/non-English app → copy in the app's language, mirrored layout, correct script font.
+- [ ] RTL/non-English app → copy in the app's language, mirrored layout, theme's `--display-fa`/`--body-fa`.

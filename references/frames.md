@@ -110,12 +110,35 @@ No chrome, just a beautifully-shadowed rounded screenshot.
 
 ---
 
-## Arranging multiple screenshots ("good order")
-- **1 shot** → hero it: large, centered or angled with `.tilt`, generous margin.
-- **2 shots** → primary large + secondary smaller and overlapping behind/beside it (depth).
-- **3 shots** → staggered fan or an overlapping stack (front one sharp, back ones dimmed
-  `filter:brightness(.8)` and scaled down). Order by importance: hero/first screenshot in front.
-- **phone set** → line up 2–3 phones with slight vertical offset and rotation (`rotate(-4deg)`,
-  `0deg`, `4deg`).
-- Keep 40–80px gaps; let the frame shadows breathe against the background.
-- Never crowd edges — leave a clear margin so the poster feels composed, not stuffed.
+## Arranging multiple screenshots — the ≥55% visibility rule (READ THIS)
+
+**Hard rule: every screenshot you place must stay at least ~55% visible.** A shot that ends up mostly
+hidden behind another is worse than not including it — it reads as clutter, not a screen. This is the
+single most common failure (a whole second screenshot buried behind the first). If two shots can't both
+be ≥55% visible in the arrangement you're trying, either switch to a side-by-side/cascade arrangement,
+shrink the hero, or **drop the extra shot**. Fewer, fully-readable screens > more, buried ones.
+
+Pick an arrangement where each frame is clearly its own screen:
+
+- **1 shot** → hero it: large, centered or angled with `.tilt`, generous margin. (Always fine.)
+- **2 shots — staggered duo (preferred):** offset them mostly *sideways*, not stacked. The back shot
+  sits up-and-behind by ~18–22% and is dimmed (`filter:brightness(.82)`); the front shot overlaps it by
+  **no more than ~40%** so ~60% of the back shot still shows. Both remain identifiable.
+  ```css
+  .duo{ position:relative; }
+  .duo .back{ position:absolute; top:0; left:34%; width:66%; filter:brightness(.82); transform:rotate(2deg); }
+  .duo .front{ position:relative; width:70%; z-index:2; } /* overlaps back by ~40%, back stays ~60% visible */
+  ```
+- **2 shots — split pane:** two frames side by side, a small gap, slight opposite tilts. Zero occlusion;
+  safest when both screens matter equally.
+- **3 shots — diagonal cascade:** step them down-and-across so each lower shot reveals the one above by
+  ≥55%; front sharp, ones behind progressively dimmed. Order by importance (hero first/front).
+- **hero + detail card:** one large browser/laptop shot + one small *fully-visible* floating card (a
+  cropped detail, a phone, a stat) tucked in a corner with its own shadow — never overlapping the hero's
+  focal content.
+- **phone set** → line up 2–3 phones with slight vertical offset and rotation (`-4deg`, `0deg`, `4deg`),
+  overlapping ≤35% so each screen face is readable.
+
+Common polish: keep 40–80px gaps, let frame shadows breathe against the background, and **bleed a shot off
+at most ONE edge** (a shot cut on two edges stops reading as a screen). Leave a clear margin — composed,
+not stuffed.

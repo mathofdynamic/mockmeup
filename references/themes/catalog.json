@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "note": "Premium theme index for /mockmeup. `id` matches the .theme-<id> class in assets/themes.css. Pick with scripts/pick_theme.py; the AI makes the final choice from the shortlist. All themes ship a Latin AND a Persian/RTL font pairing.",
+  "themes": [
+    { "id": "aurora-noir",           "name": "Aurora Noir",           "mode": "dark",  "tags": ["saas", "tech", "cool", "default", "corporate"] },
+    { "id": "obsidian-gold",         "name": "Obsidian Gold",         "mode": "dark",  "tags": ["luxury", "finance", "elegant", "warm", "premium"] },
+    { "id": "blueprint",             "name": "Blueprint",             "mode": "dark",  "tags": ["tech", "developer", "data", "cool", "technical"] },
+    { "id": "glass-dark",            "name": "Glass Dark",            "mode": "dark",  "tags": ["saas", "modern", "cool", "product"] },
+    { "id": "monochrome-ink",        "name": "Monochrome Ink",        "mode": "dark",  "tags": ["bold", "editorial", "creative", "minimal", "dramatic"] },
+    { "id": "deep-forest",           "name": "Deep Forest",           "mode": "dark",  "tags": ["organic", "elegant", "warm", "premium", "sustainability"] },
+    { "id": "midnight-indigo",       "name": "Midnight Indigo",       "mode": "dark",  "tags": ["saas", "creative", "cool", "product", "ai"] },
+    { "id": "graphite-tech",         "name": "Graphite Tech",         "mode": "dark",  "tags": ["tech", "developer", "hardware", "cool", "technical"] },
+    { "id": "royal-slate",           "name": "Royal Slate",           "mode": "dark",  "tags": ["corporate", "sober", "cool", "enterprise", "b2b"] },
+    { "id": "emerald-boardroom",     "name": "Emerald Boardroom",     "mode": "dark",  "tags": ["corporate", "finance", "elegant", "executive", "premium"] },
+    { "id": "burgundy-prestige",     "name": "Burgundy Prestige",     "mode": "dark",  "tags": ["luxury", "elegant", "warm", "editorial", "premium"] },
+    { "id": "copper-dusk",           "name": "Copper Dusk",           "mode": "dark",  "tags": ["warm", "creative", "product", "lifestyle"] },
+    { "id": "spotlight-stage",       "name": "Spotlight Stage",       "mode": "dark",  "tags": ["product", "launch", "dramatic", "warm", "hero"] },
+    { "id": "sapphire-depth",        "name": "Sapphire Depth",        "mode": "dark",  "tags": ["saas", "data", "cool", "corporate", "cloud"] },
+    { "id": "editorial-paper",       "name": "Editorial Paper",       "mode": "light", "tags": ["editorial", "elegant", "warm", "content", "publishing"] },
+    { "id": "swiss-minimal",         "name": "Swiss Minimal",         "mode": "light", "tags": ["minimal", "bold", "editorial", "design", "agency"] },
+    { "id": "glass-light",           "name": "Glass Light",           "mode": "light", "tags": ["saas", "modern", "friendly", "product", "consumer"] },
+    { "id": "champagne-studio",      "name": "Champagne Studio",      "mode": "light", "tags": ["luxury", "elegant", "warm", "lifestyle", "premium"] },
+    { "id": "arctic-frost",          "name": "Arctic Frost",          "mode": "light", "tags": ["saas", "clean", "cool", "healthcare", "corporate"] },
+    { "id": "terracotta-editorial",  "name": "Terracotta Editorial",  "mode": "light", "tags": ["editorial", "warm", "friendly", "lifestyle", "content"] },
+    { "id": "persian-geometry",      "name": "Persian Geometry",      "mode": "light", "tags": ["rtl-friendly", "elegant", "cultural", "editorial", "premium"] },
+    { "id": "pearl-gradient",        "name": "Pearl Gradient",        "mode": "light", "tags": ["consumer", "soft", "modern", "beauty", "lifestyle"] },
+    { "id": "nordic-calm",           "name": "Nordic Calm",           "mode": "light", "tags": ["calm", "minimal", "elegant", "wellness", "content"] },
+    { "id": "duotone-studio",        "name": "Duotone Studio",        "mode": "either", "tags": ["creative", "bold", "consumer", "agency", "product"] }
+  ]
+}

@@ -1,0 +1,441 @@
+/* ============================================================================
+   mockmeup — 24 premium theme library  (source of truth)
+   ----------------------------------------------------------------------------
+   HOW TO USE
+   1. Link this file in the poster HTML <head>:
+        <link rel="stylesheet" href="ABS_PATH/themes.css">
+      (or copy it next to the poster and use a relative href).
+   2. Put ONE theme class on the .poster root:  <div class="poster theme-royal-slate"> …
+   3. Every theme exposes the SAME CSS custom properties, so one poster template
+      works with any theme. The template consumes them; the theme defines them:
+
+        --accent, --accent-2   brand hues (focal highlight, secondary)
+        --ink, --muted         foreground text / dimmed text
+        --bg-0                 deepest background colour
+        --display, --body      Latin display + body font families
+        --display-fa, --body-fa  Persian/RTL display + body families
+        --panel, --chrome-bg   device-frame body + browser chrome background
+        --url-bg, --url-fg     browser URL pill background / text
+        --frame-shadow         drop shadow used on the hero screenshot frame
+        --frame-radius         corner radius for frames
+        --chip-bg, --chip-border, --chip-fg   feature-pill styling
+        --eyebrow-fg           kicker / eyebrow colour
+        --vignette             box-shadow value for the .vignette layer (per mode)
+        --grain-opacity        film-grain strength for this theme
+        --hl-fill              fill for the highlighted headline word
+
+   4. The theme's atmosphere lives on  .theme-x .bg  (+ optional ::before/::after
+      for grids, dots, rays, girih, spotlight). The template must render:
+        <div class="bg"></div><div class="grain"></div><div class="vignette"></div>
+
+   Themes are grouped light vs dark by the `mode` field in themes/catalog.json.
+   Pick with scripts/pick_theme.py; never reuse the same theme twice in one run.
+   ============================================================================ */
+
+/* ---- Fonts (Google Fonts; network available at render time) ---------------- */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Sora:wght@300;400;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Inter+Tight:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Work+Sans:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Playfair+Display:wght@500;600;700;800&family=Cormorant+Garamond:wght@500;600;700&family=DM+Serif+Display:ital@0;1&family=Spectral:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Syne:wght@600;700;800&family=Unbounded:wght@500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&family=Markazi+Text:wght@400;500;600;700&family=Lalezar&display=swap');
+
+/* ---- Shared defaults every theme can override ------------------------------ */
+.poster{
+  --accent:#5b8cff; --accent-2:#c874ff;
+  --ink:#eef2ff; --muted:rgba(238,242,255,.72);
+  --bg-0:#070b16;
+  --display:"Space Grotesk", system-ui, sans-serif;
+  --body:"Inter Tight", system-ui, sans-serif;
+  --display-fa:"Vazirmatn", system-ui, sans-serif;
+  --body-fa:"Vazirmatn", system-ui, sans-serif;
+  --panel:#111420; --chrome-bg:linear-gradient(#20222c,#181a22);
+  --url-bg:#0d0e14; --url-fg:#8b90a3;
+  --frame-shadow:0 40px 90px -22px rgba(0,0,0,.65), 0 14px 34px -14px rgba(0,0,0,.5);
+  --frame-radius:16px;
+  --chip-bg:color-mix(in oklab, var(--accent) 14%, transparent);
+  --chip-border:1px solid color-mix(in oklab, var(--accent) 42%, transparent);
+  --chip-fg:var(--ink);
+  --eyebrow-fg:var(--accent);
+  --vignette:inset 0 0 260px 44px rgba(0,0,0,.5);
+  --grain-opacity:.06;
+  --hl-fill:linear-gradient(120deg, var(--accent), var(--accent-2));
+}
+
+/* ============================================================================
+   DARK THEMES
+   ============================================================================ */
+
+/* 1 — aurora-noir : classic premium SaaS; two soft glows over near-black navy */
+.theme-aurora-noir{
+  --accent:#5b8cff; --accent-2:#c874ff; --ink:#eef2ff; --muted:rgba(238,242,255,.72);
+  --bg-0:#070b16; --display:"Space Grotesk",sans-serif; --body:"Inter Tight",sans-serif;
+}
+.theme-aurora-noir .bg{
+  background:
+    radial-gradient(58% 48% at 16% 12%, color-mix(in oklab,var(--accent) 55%,transparent) 0%, transparent 60%),
+    radial-gradient(55% 55% at 88% 84%, color-mix(in oklab,var(--accent-2) 48%,transparent) 0%, transparent 55%),
+    radial-gradient(80% 60% at 50% 120%, color-mix(in oklab,var(--accent) 20%,transparent) 0%, transparent 60%),
+    linear-gradient(160deg,#0a0e1c 0%, var(--bg-0) 60%, #05070f 100%);
+}
+
+/* 3 — obsidian-gold : near-black + restrained metallic gold sweep; luxury */
+.theme-obsidian-gold{
+  --accent:#d8b46a; --accent-2:#b98a3e; --ink:#f4efe3; --muted:rgba(244,239,227,.66);
+  --bg-0:#0a0a0c; --display:"Cormorant Garamond",serif; --body:"Manrope",sans-serif;
+  --display-fa:"Markazi Text",serif;
+  --panel:#141416; --chrome-bg:linear-gradient(#1c1c1f,#141416);
+  --chip-bg:color-mix(in oklab,var(--accent) 12%,transparent);
+  --chip-border:1px solid color-mix(in oklab,var(--accent) 46%,transparent);
+  --hl-fill:linear-gradient(120deg,#e7c987,#b98a3e);
+  --vignette:inset 0 0 280px 60px rgba(0,0,0,.62);
+}
+.theme-obsidian-gold .bg{
+  background:
+    radial-gradient(60% 46% at 82% 8%, rgba(216,180,106,.30), transparent 55%),
+    conic-gradient(from 210deg at 18% 92%, rgba(216,180,106,.14), transparent 42%),
+    linear-gradient(160deg,#0c0c0e,#141416 58%,#0a0a0c);
+}
+
+/* 5 — blueprint : deep navy + fine cyan engineering grid; technical tools */
+.theme-blueprint{
+  --accent:#3fd3e0; --accent-2:#5b8cff; --ink:#e7f6f8; --muted:rgba(231,246,248,.70);
+  --bg-0:#071019; --display:"Space Grotesk",sans-serif; --body:"IBM Plex Sans",sans-serif;
+}
+.theme-blueprint .bg{
+  background:linear-gradient(135deg,#08131f 0%,#0a1a2c 55%,#07121d 100%);
+}
+.theme-blueprint .bg::before{
+  content:""; position:absolute; inset:0;
+  background-image:
+    linear-gradient(color-mix(in oklab,var(--accent) 20%,transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklab,var(--accent) 20%,transparent) 1px, transparent 1px);
+  background-size:46px 46px;
+  mask-image:radial-gradient(82% 72% at 50% 34%, #000 0%, transparent 76%); opacity:.55;
+}
+.theme-blueprint .bg::after{
+  content:""; position:absolute; inset:0;
+  background:radial-gradient(46% 40% at 74% 16%, color-mix(in oklab,var(--accent) 26%,transparent), transparent 60%);
+}
+
+/* 7 — glass-dark : frosted panels + glow rims over deep gradient */
+.theme-glass-dark{
+  --accent:#7ca6ff; --accent-2:#59e6c6; --ink:#eef3ff; --muted:rgba(238,243,255,.72);
+  --bg-0:#0a0f1d; --display:"Sora",sans-serif; --body:"DM Sans",sans-serif;
+  --panel:#141a2b;
+}
+.theme-glass-dark .bg{
+  background:
+    radial-gradient(46% 42% at 22% 20%, color-mix(in oklab,var(--accent) 44%,transparent), transparent 60%),
+    radial-gradient(44% 44% at 82% 76%, color-mix(in oklab,var(--accent-2) 38%,transparent), transparent 58%),
+    linear-gradient(155deg,#0d1426 0%, var(--bg-0) 70%);
+}
+
+/* 8 — monochrome-ink : pure black + ONE accent; dramatic type scale */
+.theme-monochrome-ink{
+  --accent:#ff5a3c; --accent-2:#ff5a3c; --ink:#f7f7f7; --muted:rgba(247,247,247,.60);
+  --bg-0:#0a0a0a; --display:"Syne",sans-serif; --body:"Work Sans",sans-serif;
+  --chip-bg:transparent; --chip-border:1px solid rgba(247,247,247,.28); --chip-fg:var(--ink);
+  --hl-fill:var(--accent); --eyebrow-fg:var(--accent);
+}
+.theme-monochrome-ink .bg{ background:linear-gradient(180deg,#0d0d0d,#070707); }
+.theme-monochrome-ink .bg::after{
+  content:""; position:absolute; inset:0;
+  background:radial-gradient(60% 50% at 78% 12%, color-mix(in oklab,var(--accent) 18%,transparent), transparent 60%);
+}
+
+/* 10 — deep-forest : dark green + brass; organic premium */
+.theme-deep-forest{
+  --accent:#c9a24a; --accent-2:#3fae7a; --ink:#eef3ec; --muted:rgba(238,243,236,.68);
+  --bg-0:#07130e; --display:"Fraunces",serif; --body:"Manrope",sans-serif; --display-fa:"Markazi Text",serif;
+  --hl-fill:linear-gradient(120deg,#dcbf6a,#3fae7a);
+}
+.theme-deep-forest .bg{
+  background:
+    radial-gradient(56% 46% at 82% 12%, rgba(201,162,74,.26), transparent 56%),
+    radial-gradient(52% 50% at 14% 88%, rgba(63,174,122,.22), transparent 58%),
+    linear-gradient(160deg,#0a1a12 0%, var(--bg-0) 62%, #05100b 100%);
+}
+
+/* 11 — midnight-indigo : indigo→violet dusk, glowing rim on frames */
+.theme-midnight-indigo{
+  --accent:#8b7bff; --accent-2:#e070c8; --ink:#f1eeff; --muted:rgba(241,238,255,.72);
+  --bg-0:#0b0820; --display:"Sora",sans-serif; --body:"Inter Tight",sans-serif;
+  --frame-shadow:0 40px 90px -20px rgba(80,50,160,.55), 0 0 0 1px rgba(160,140,255,.14), 0 0 60px -6px rgba(140,110,255,.35);
+}
+.theme-midnight-indigo .bg{
+  background:
+    radial-gradient(58% 48% at 20% 14%, color-mix(in oklab,var(--accent) 52%,transparent), transparent 60%),
+    radial-gradient(54% 52% at 84% 82%, color-mix(in oklab,var(--accent-2) 44%,transparent), transparent 56%),
+    linear-gradient(165deg,#140f36 0%, #0e0a28 55%, var(--bg-0) 100%);
+}
+
+/* 13 — graphite-tech : charcoal + carbon texture, silver text, sharp bevels */
+.theme-graphite-tech{
+  --accent:#7fb2ff; --accent-2:#a9b4c4; --ink:#e9edf3; --muted:rgba(233,237,243,.66);
+  --bg-0:#0c0e12; --display:"Space Grotesk",sans-serif; --body:"IBM Plex Sans",sans-serif;
+  --panel:#15181f;
+}
+.theme-graphite-tech .bg{
+  background:linear-gradient(155deg,#15181f 0%, #0f1216 55%, #0a0c10 100%);
+}
+.theme-graphite-tech .bg::before{
+  content:""; position:absolute; inset:0; opacity:.5;
+  background-image:repeating-linear-gradient(135deg, rgba(255,255,255,.035) 0 2px, transparent 2px 7px);
+  mask-image:radial-gradient(90% 80% at 50% 30%, #000, transparent 82%);
+}
+.theme-graphite-tech .bg::after{
+  content:""; position:absolute; inset:0;
+  background:radial-gradient(50% 42% at 76% 12%, color-mix(in oklab,var(--accent) 22%,transparent), transparent 60%);
+}
+
+/* 14 — royal-slate : slate blue + silver; sober corporate premium */
+.theme-royal-slate{
+  --accent:#6f9bd8; --accent-2:#aebbcd; --ink:#eef2f8; --muted:rgba(238,242,248,.70);
+  --bg-0:#0c1220; --display:"Sora",sans-serif; --body:"IBM Plex Sans",sans-serif;
+  --panel:#141c2b;
+}
+.theme-royal-slate .bg{
+  background:
+    radial-gradient(60% 48% at 80% 10%, color-mix(in oklab,var(--accent) 34%,transparent), transparent 58%),
+    radial-gradient(52% 50% at 10% 92%, color-mix(in oklab,var(--accent-2) 16%,transparent), transparent 60%),
+    linear-gradient(160deg,#12203a 0%, #0e1729 55%, var(--bg-0) 100%);
+}
+
+/* 16 — emerald-boardroom : deep emerald + cream; executive */
+.theme-emerald-boardroom{
+  --accent:#f0e6cf; --accent-2:#39c08a; --ink:#eef6f0; --muted:rgba(238,246,240,.68);
+  --bg-0:#04140e; --display:"Cormorant Garamond",serif; --body:"Manrope",sans-serif; --display-fa:"Markazi Text",serif;
+  --hl-fill:linear-gradient(120deg,#f3ead2,#39c08a); --eyebrow-fg:#e7d9b4;
+}
+.theme-emerald-boardroom .bg{
+  background:
+    radial-gradient(58% 46% at 78% 12%, rgba(57,192,138,.24), transparent 56%),
+    radial-gradient(54% 52% at 16% 90%, rgba(240,230,207,.10), transparent 58%),
+    linear-gradient(160deg,#08251a 0%, #051a12 58%, var(--bg-0) 100%);
+}
+
+/* 17 — burgundy-prestige : wine red + soft gold on near-black */
+.theme-burgundy-prestige{
+  --accent:#d8a24e; --accent-2:#a33b4c; --ink:#f6ece9; --muted:rgba(246,236,233,.66);
+  --bg-0:#120608; --display:"Playfair Display",serif; --body:"Manrope",sans-serif; --display-fa:"Markazi Text",serif;
+  --hl-fill:linear-gradient(120deg,#e6be74,#a33b4c);
+}
+.theme-burgundy-prestige .bg{
+  background:
+    radial-gradient(58% 46% at 80% 10%, rgba(216,162,78,.22), transparent 55%),
+    radial-gradient(60% 54% at 18% 92%, rgba(163,59,76,.34), transparent 58%),
+    linear-gradient(160deg,#2a0d12 0%, #1a080c 56%, var(--bg-0) 100%);
+}
+
+/* 20 — copper-dusk : bronze/copper warm glows on deep brown-black */
+.theme-copper-dusk{
+  --accent:#e08a4c; --accent-2:#c9663c; --ink:#f6ece2; --muted:rgba(246,236,226,.68);
+  --bg-0:#120c08; --display:"Sora",sans-serif; --body:"Manrope",sans-serif;
+  --hl-fill:linear-gradient(120deg,#f0a566,#c9663c);
+}
+.theme-copper-dusk .bg{
+  background:
+    radial-gradient(56% 46% at 24% 16%, rgba(224,138,76,.34), transparent 58%),
+    radial-gradient(52% 50% at 84% 84%, rgba(201,102,60,.26), transparent 56%),
+    linear-gradient(160deg,#241610 0%, #180f0a 58%, var(--bg-0) 100%);
+}
+
+/* 23 — spotlight-stage : near-black with one dramatic spotlight cone */
+.theme-spotlight-stage{
+  --accent:#ffd76a; --accent-2:#ff9e6a; --ink:#f6f5f2; --muted:rgba(246,245,242,.60);
+  --bg-0:#08080a; --display:"Sora",sans-serif; --body:"Inter Tight",sans-serif;
+  --hl-fill:linear-gradient(120deg,#ffe08a,#ff9e6a);
+}
+.theme-spotlight-stage .bg{ background:radial-gradient(120% 90% at 50% -10%, #191818 0%, #0b0b0d 42%, #060608 100%); }
+.theme-spotlight-stage .bg::after{
+  content:""; position:absolute; inset:0;
+  background:conic-gradient(from 180deg at 50% -6%, transparent 42%, color-mix(in oklab,var(--accent) 22%,transparent) 50%, transparent 58%);
+  mask-image:linear-gradient(#000, transparent 78%); opacity:.9;
+}
+
+/* 24 — sapphire-depth : deep ocean blue gradient with light rays from above */
+.theme-sapphire-depth{
+  --accent:#4ec3ff; --accent-2:#6a7bff; --ink:#e9f4ff; --muted:rgba(233,244,255,.72);
+  --bg-0:#03101f; --display:"Space Grotesk",sans-serif; --body:"Manrope",sans-serif;
+}
+.theme-sapphire-depth .bg{
+  background:
+    radial-gradient(70% 50% at 50% -8%, color-mix(in oklab,var(--accent) 34%,transparent), transparent 60%),
+    linear-gradient(180deg,#062842 0%, #04203a 40%, var(--bg-0) 100%);
+}
+.theme-sapphire-depth .bg::after{
+  content:""; position:absolute; inset:0; opacity:.5;
+  background:repeating-linear-gradient(100deg, rgba(120,200,255,.06) 0 3px, transparent 3px 34px);
+  mask-image:linear-gradient(#000, transparent 70%);
+}
+
+/* ============================================================================
+   LIGHT THEMES  (dark --ink, light backgrounds)
+   ============================================================================ */
+
+/* 2 — editorial-paper : warm paper white, serif display, thin rules */
+.theme-editorial-paper{
+  --accent:#c2452e; --accent-2:#1c2a52; --ink:#161512; --muted:rgba(22,21,18,.62);
+  --bg-0:#f0eadd; --display:"Fraunces",serif; --body:"Newsreader",serif;
+  --display-fa:"Markazi Text",serif; --body-fa:"Vazirmatn",sans-serif;
+  --chip-bg:transparent; --chip-border:1px solid rgba(22,21,18,.24); --chip-fg:var(--ink);
+  --eyebrow-fg:var(--accent); --hl-fill:var(--accent);
+  --vignette:inset 0 0 220px 40px rgba(120,100,70,.10); --grain-opacity:.04;
+}
+.theme-editorial-paper .bg{
+  background:
+    radial-gradient(66% 56% at 86% 2%, color-mix(in oklab,var(--accent) 12%,transparent), transparent 58%),
+    radial-gradient(48% 48% at 2% 100%, color-mix(in oklab,var(--accent-2) 10%,transparent), transparent 56%),
+    linear-gradient(180deg,#faf6ee,#efe8db);
+}
+
+/* 4 — swiss-minimal : stark white, huge tight grotesk, one red accent, grid */
+.theme-swiss-minimal{
+  --accent:#e5312b; --accent-2:#111111; --ink:#0e0e0e; --muted:rgba(14,14,14,.58);
+  --bg-0:#ffffff; --display:"Archivo",sans-serif; --body:"IBM Plex Sans",sans-serif;
+  --chip-bg:transparent; --chip-border:1px solid rgba(14,14,14,.22); --chip-fg:var(--ink);
+  --eyebrow-fg:var(--accent); --hl-fill:var(--accent);
+  --vignette:none; --grain-opacity:.03;
+}
+.theme-swiss-minimal .bg{ background:#ffffff; }
+.theme-swiss-minimal .bg::before{
+  content:""; position:absolute; inset:0; opacity:.55;
+  background-image:
+    linear-gradient(rgba(14,14,14,.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(14,14,14,.06) 1px, transparent 1px);
+  background-size:80px 80px;
+}
+
+/* 6 — glass-light : frosted panels over soft pastel gradient */
+.theme-glass-light{
+  --accent:#5b6cff; --accent-2:#ff6ba8; --ink:#151529; --muted:rgba(21,21,41,.62);
+  --bg-0:#eef0fb; --display:"Outfit",sans-serif; --body:"DM Sans",sans-serif;
+  --chip-bg:rgba(255,255,255,.55); --chip-border:1px solid rgba(255,255,255,.8); --chip-fg:var(--ink);
+  --vignette:inset 0 0 200px 40px rgba(70,70,140,.08); --grain-opacity:.03;
+}
+.theme-glass-light .bg{
+  background:
+    radial-gradient(52% 48% at 16% 14%, color-mix(in oklab,var(--accent) 30%,transparent), transparent 60%),
+    radial-gradient(50% 50% at 86% 84%, color-mix(in oklab,var(--accent-2) 26%,transparent), transparent 58%),
+    linear-gradient(160deg,#f2f3fe,#eae7fb 70%);
+}
+
+/* 9 — champagne-studio : cream studio backdrop, elegant serif, soft shadow */
+.theme-champagne-studio{
+  --accent:#b08948; --accent-2:#3a3733; --ink:#221f1a; --muted:rgba(34,31,26,.60);
+  --bg-0:#f3ece0; --display:"Playfair Display",serif; --body:"Manrope",sans-serif;
+  --display-fa:"Markazi Text",serif;
+  --chip-bg:rgba(255,255,255,.5); --chip-border:1px solid rgba(176,137,72,.4); --chip-fg:var(--ink);
+  --eyebrow-fg:var(--accent); --hl-fill:linear-gradient(120deg,#c79a52,#8a6a34);
+  --vignette:inset 0 0 220px 50px rgba(120,95,55,.14); --grain-opacity:.04;
+}
+.theme-champagne-studio .bg{
+  background:
+    radial-gradient(70% 60% at 50% 120%, rgba(176,137,72,.16), transparent 60%),
+    linear-gradient(180deg,#f7f1e6 0%, #efe6d6 60%, #e7dcc8 100%);
+}
+
+/* 12 — arctic-frost : icy blues, crisp edges, cool + clean */
+.theme-arctic-frost{
+  --accent:#2f7de0; --accent-2:#3fb6c9; --ink:#0e2233; --muted:rgba(14,34,51,.62);
+  --bg-0:#eef6fb; --display:"Outfit",sans-serif; --body:"Inter Tight",sans-serif;
+  --chip-bg:rgba(255,255,255,.6); --chip-border:1px solid color-mix(in oklab,var(--accent) 30%,transparent); --chip-fg:var(--ink);
+  --vignette:inset 0 0 200px 40px rgba(40,90,140,.08); --grain-opacity:.03;
+}
+.theme-arctic-frost .bg{
+  background:
+    radial-gradient(56% 46% at 84% 4%, color-mix(in oklab,var(--accent) 22%,transparent), transparent 56%),
+    radial-gradient(50% 50% at 6% 98%, color-mix(in oklab,var(--accent-2) 20%,transparent), transparent 56%),
+    linear-gradient(165deg,#f4fafe,#e6f1f9 70%);
+}
+
+/* 15 — terracotta-editorial : warm clay/sand tones, modern serif */
+.theme-terracotta-editorial{
+  --accent:#c65a37; --accent-2:#3f4a3a; --ink:#241a14; --muted:rgba(36,26,20,.60);
+  --bg-0:#f3e7db; --display:"Fraunces",serif; --body:"Work Sans",sans-serif;
+  --display-fa:"Markazi Text",serif;
+  --chip-bg:rgba(255,255,255,.45); --chip-border:1px solid color-mix(in oklab,var(--accent) 34%,transparent); --chip-fg:var(--ink);
+  --eyebrow-fg:var(--accent); --hl-fill:var(--accent);
+  --vignette:inset 0 0 220px 50px rgba(150,90,55,.12); --grain-opacity:.045;
+}
+.theme-terracotta-editorial .bg{
+  background:
+    radial-gradient(64% 54% at 88% 4%, rgba(198,90,55,.18), transparent 58%),
+    radial-gradient(50% 50% at 4% 100%, rgba(63,74,58,.12), transparent 56%),
+    linear-gradient(180deg,#f7ecdf,#eeddca 72%);
+}
+
+/* 18 — persian-geometry : girih line pattern, lapis + gold; RTL-first */
+.theme-persian-geometry{
+  --accent:#1f6fb2; --accent-2:#c79a3e; --ink:#12212e; --muted:rgba(18,33,46,.62);
+  --bg-0:#f4f0e6; --display:"DM Serif Display",serif; --body:"Manrope",sans-serif;
+  --display-fa:"Lalezar",cursive; --body-fa:"Vazirmatn",sans-serif;
+  --chip-bg:rgba(255,255,255,.5); --chip-border:1px solid color-mix(in oklab,var(--accent) 34%,transparent); --chip-fg:var(--ink);
+  --eyebrow-fg:var(--accent); --hl-fill:linear-gradient(120deg,#1f6fb2,#c79a3e);
+  --vignette:inset 0 0 220px 46px rgba(80,70,40,.10); --grain-opacity:.035;
+}
+.theme-persian-geometry .bg{
+  background:linear-gradient(170deg,#f7f3ea,#efe8d7 74%);
+}
+.theme-persian-geometry .bg::before{
+  content:""; position:absolute; inset:0; opacity:.16;
+  background-image:
+    repeating-linear-gradient(30deg, color-mix(in oklab,var(--accent) 80%,transparent) 0 1.5px, transparent 1.5px 26px),
+    repeating-linear-gradient(-30deg, color-mix(in oklab,var(--accent) 80%,transparent) 0 1.5px, transparent 1.5px 26px),
+    repeating-linear-gradient(90deg, color-mix(in oklab,var(--accent-2) 70%,transparent) 0 1.5px, transparent 1.5px 26px);
+  mask-image:radial-gradient(80% 74% at 50% 40%, #000, transparent 82%);
+}
+
+/* 21 — pearl-gradient : iridescent pearl sheen, silver type; soft high-end */
+.theme-pearl-gradient{
+  --accent:#8a7bd8; --accent-2:#5fb8c9; --ink:#26243a; --muted:rgba(38,36,58,.58);
+  --bg-0:#f1eef7; --display:"Outfit",sans-serif; --body:"DM Sans",sans-serif;
+  --chip-bg:rgba(255,255,255,.55); --chip-border:1px solid rgba(255,255,255,.85); --chip-fg:var(--ink);
+  --hl-fill:linear-gradient(120deg,#8a7bd8,#5fb8c9); --vignette:inset 0 0 200px 40px rgba(90,80,140,.08); --grain-opacity:.03;
+}
+.theme-pearl-gradient .bg{
+  background:
+    radial-gradient(44% 40% at 18% 18%, rgba(255,214,235,.55), transparent 60%),
+    radial-gradient(44% 42% at 82% 26%, rgba(206,224,255,.6), transparent 60%),
+    radial-gradient(50% 46% at 72% 88%, rgba(198,255,238,.5), transparent 60%),
+    radial-gradient(44% 40% at 24% 86%, rgba(255,240,206,.5), transparent 60%),
+    linear-gradient(160deg,#f5f2fb,#ece7f6);
+  filter:saturate(1.03);
+}
+
+/* 22 — nordic-calm : muted sage/stone, generous whitespace; calm premium */
+.theme-nordic-calm{
+  --accent:#5f7a6a; --accent-2:#a9705a; --ink:#20261f; --muted:rgba(32,38,31,.58);
+  --bg-0:#eef0e9; --display:"Spectral",serif; --body:"Work Sans",sans-serif;
+  --display-fa:"Markazi Text",serif;
+  --chip-bg:rgba(255,255,255,.5); --chip-border:1px solid color-mix(in oklab,var(--accent) 32%,transparent); --chip-fg:var(--ink);
+  --eyebrow-fg:var(--accent); --hl-fill:var(--accent);
+  --vignette:inset 0 0 220px 50px rgba(70,80,60,.08); --grain-opacity:.035;
+}
+.theme-nordic-calm .bg{
+  background:
+    radial-gradient(60% 50% at 84% 6%, color-mix(in oklab,var(--accent) 16%,transparent), transparent 58%),
+    radial-gradient(50% 50% at 6% 98%, color-mix(in oklab,var(--accent-2) 12%,transparent), transparent 56%),
+    linear-gradient(180deg,#f3f4ee,#e7e9df 72%);
+}
+
+/* ============================================================================
+   DUAL / EITHER-MODE THEMES
+   ============================================================================ */
+
+/* 19 — duotone-studio : whole poster in a two-colour duotone (dark base) */
+.theme-duotone-studio{
+  --accent:#ff5f9e; --accent-2:#2b1a55; --ink:#ffe9f3; --muted:rgba(255,233,243,.72);
+  --bg-0:#180a2e; --display:"Unbounded",sans-serif; --body:"DM Sans",sans-serif;
+  --display-fa:"Lalezar",cursive;
+  --panel:#241145; --chrome-bg:linear-gradient(#2c1652,#1d0f3b);
+  --hl-fill:linear-gradient(120deg,#ff5f9e,#ff9ecb);
+  --frame-shadow:0 40px 90px -20px rgba(60,10,80,.6), 0 0 0 1px rgba(255,120,180,.16);
+}
+.theme-duotone-studio .bg{
+  background:
+    radial-gradient(60% 50% at 24% 16%, color-mix(in oklab,var(--accent) 44%,transparent), transparent 60%),
+    radial-gradient(56% 54% at 82% 86%, color-mix(in oklab,var(--accent) 26%,transparent), transparent 58%),
+    linear-gradient(160deg,#2a1250 0%, #1c0d38 56%, var(--bg-0) 100%);
+}
+
+/* end themes */
